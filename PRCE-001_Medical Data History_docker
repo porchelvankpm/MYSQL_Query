@@ -1,0 +1,21 @@
+# Use a lightweight base image
+FROM alpine:latest
+
+# Install MySQL client
+RUN apk --no-cache add mysql-client
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the SQL script into the container (change 'script.sql' to your SQL script filename)
+COPY ./script.sql /app/
+
+# (Optional) Specify default MySQL connection parameters (modify as needed)
+ENV MYSQL_HOST=18.136.157.135
+ENV MYSQL_PORT=3306
+ENV MYSQL_USER=dm_team4
+ENV MYSQL_PASSWORD=DM!$!Team!47@4!23&
+ENV MYSQL_DATABASE=project_medical_data_history
+
+# Execute the SQL script using the MySQL client
+CMD ["sh", "-c", "mysql -h $MYSQL_HOST -P $MYSQL_PORT -u $MYSQL_USER -p$MYSQL_PASSWORD $MYSQL_DATABASE < /app/medical_data.sql"]
